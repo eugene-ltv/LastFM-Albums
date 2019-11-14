@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/search"
+    app:startDestination="@id/search_fragment">
+
+    <fragment
+        android:id="@+id/search_fragment"
+        android:name="com.saiferwp.lastfmalbums.ui.search.SearchFragment"
+        android:label="@string/search"
+        tools:layout="@layout/search_fragment">
+
+        <action
+            android:id="@+id/to_top_albums"
+            app:destination="@id/top_albums_fragment">
+            <argument
+                android:name="artistMbId"
+                app:argType="string" />
+        </action>
+    </fragment>
+
+    <fragment
+        android:id="@+id/top_albums_fragment"
+        android:name="com.saiferwp.lastfmalbums.ui.topalbums.TopAlbumsFragment"
+        android:label="@string/top_albums"
+        tools:layout="@layout/top_albums_fragment">
+
+        <argument
+            android:name="artistMbId"
+            app:argType="string" />
+    </fragment>
+
+</navigation>

@@ -12,7 +12,8 @@ abstract class ActivityBindingModule {
     @ContributesAndroidInjector(
         modules = [
             // fragments
-            SearchFragmentModule::class
+            SearchFragmentModule::class,
+            TopAlbumsFragmentModule::class
         ]
     )
     internal abstract fun mainActivity(): MainActivity

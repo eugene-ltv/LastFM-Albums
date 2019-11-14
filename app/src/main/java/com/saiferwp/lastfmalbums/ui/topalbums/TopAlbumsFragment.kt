@@ -1,4 +1,4 @@
-package com.saiferwp.lastfmalbums.ui.search
+package com.saiferwp.lastfmalbums.ui.topalbums
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -6,58 +6,51 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.fragment.findNavController
 import com.saiferwp.lastfmalbums.R
 import com.saiferwp.lastfmalbums.util.Result
 import com.saiferwp.lastfmalbums.util.successOr
 import com.saiferwp.lastfmalbums.util.viewModelProvider
 import dagger.android.support.DaggerFragment
-import kotlinx.android.synthetic.main.search_fragment.*
+import kotlinx.android.synthetic.main.top_albums_fragment.*
 import javax.inject.Inject
 
-class SearchFragment : DaggerFragment() {
+class TopAlbumsFragment : DaggerFragment() {
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
-    private lateinit var viewModel: SearchViewModel
+    private lateinit var viewModel: TopAlbumsViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel = viewModelProvider(viewModelFactory)
-        viewModel.openTopAlbumsAction.observe(this, Observer { artist ->
-            if (artist == null) return@Observer
-            findNavController().navigate(
-                SearchFragmentDirections.toTopAlbums(artist.mbId)
-            )
-        })
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        return inflater.inflate(R.layout.search_fragment, container, false)
+        return inflater.inflate(R.layout.top_albums_fragment, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        searchRecycler.adapter = SearchAdapter(viewModel)
-        searchButton.setOnClickListener {
-            val searchString = searchInput.text.toString()
-            if (searchString.isNotBlank()) {
-                viewModel.search(searchString)
-            }
-        }
+        topAlbumsRecycler.adapter = TopAlbumsAdapter(viewModel)
 
-        viewModel.artists.observe(viewLifecycleOwner, Observer { result ->
-            searchProgress.visibility = if (result is Result.Loading) {
+        viewModel.topAlbums.observe(viewLifecycleOwner, Observer { result ->
+            loadingProgress.visibility = if (result is Result.Loading) {
                 View.VISIBLE
             } else {
                 View.GONE
             }
 
-            (searchRecycler.adapter as SearchAdapter)
+            (topAlbumsRecycler.adapter as TopAlbumsAdapter)
                 .submitList(result.successOr(emptyList()))
         })
+
+        if (savedInstanceState == null) {
+            TopAlbumsFragmentArgs.fromBundle(arguments ?: Bundle.EMPTY).run {
+                viewModel.loadTopAlbums(artistMbId)
+            }
+        }
     }
 }
