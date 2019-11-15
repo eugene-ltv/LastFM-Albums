@@ -2,4 +2,5 @@
     <string name="app_name">LastFM Albums</string>
     <string name="search">Search</string>
     <string name="top_albums">Top Albums</string>
+    <string name="album_info">Album Info</string>
 </resources>

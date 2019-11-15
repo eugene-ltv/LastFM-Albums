@@ -11,22 +11,7 @@ import com.saiferwp.lastfmalbums.domain.model.Artist
 
 class SearchAdapter(
     private val eventListener: SearchEventListener
-) : ListAdapter<Artist, ArtistViewHolder>(
-    object : DiffUtil.ItemCallback<Artist>() {
-        override fun areItemsTheSame(
-            oldItem: Artist,
-            newItem: Artist
-        ): Boolean {
-            return oldItem === newItem
-        }
-
-        override fun areContentsTheSame(
-            oldItem: Artist,
-            newItem: Artist
-        ): Boolean {
-            return oldItem.name == newItem.name
-        }
-    }) {
+) : ListAdapter<Artist, ArtistViewHolder>(DIFF_CALLBACK) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ArtistViewHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -40,6 +25,24 @@ class SearchAdapter(
 
     override fun onBindViewHolder(holder: ArtistViewHolder, position: Int) {
         holder.bind(getItem(position))
+    }
+
+    companion object {
+        val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Artist>() {
+            override fun areItemsTheSame(
+                oldItem: Artist,
+                newItem: Artist
+            ): Boolean {
+                return oldItem === newItem
+            }
+
+            override fun areContentsTheSame(
+                oldItem: Artist,
+                newItem: Artist
+            ): Boolean {
+                return oldItem.mbId == newItem.mbId
+            }
+        }
     }
 }
 

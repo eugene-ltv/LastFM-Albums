@@ -12,22 +12,7 @@ import com.saiferwp.lastfmalbums.domain.model.Album
 
 class TopAlbumsAdapter(
     private val eventListener: TopAlbumsEventListener
-) : ListAdapter<Album, TopAlbumViewHolder>(
-    object : DiffUtil.ItemCallback<Album>() {
-        override fun areItemsTheSame(
-            oldItem: Album,
-            newItem: Album
-        ): Boolean {
-            return oldItem === newItem
-        }
-
-        override fun areContentsTheSame(
-            oldItem: Album,
-            newItem: Album
-        ): Boolean {
-            return oldItem.name == newItem.name
-        }
-    }) {
+) : ListAdapter<Album, TopAlbumViewHolder>(DIFF_CALLBACK) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TopAlbumViewHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -41,6 +26,24 @@ class TopAlbumsAdapter(
 
     override fun onBindViewHolder(holder: TopAlbumViewHolder, position: Int) {
         holder.bind(getItem(position))
+    }
+
+    companion object {
+        val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Album>() {
+            override fun areItemsTheSame(
+                oldItem: Album,
+                newItem: Album
+            ): Boolean {
+                return oldItem === newItem
+            }
+
+            override fun areContentsTheSame(
+                oldItem: Album,
+                newItem: Album
+            ): Boolean {
+                return oldItem.mbId == newItem.mbId
+            }
+        }
     }
 }
 

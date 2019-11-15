@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.saiferwp.lastfmalbums.R
 import com.saiferwp.lastfmalbums.util.Result
+import com.saiferwp.lastfmalbums.util.hideKeyboard
 import com.saiferwp.lastfmalbums.util.successOr
 import com.saiferwp.lastfmalbums.util.viewModelProvider
 import dagger.android.support.DaggerFragment
@@ -27,6 +28,7 @@ class SearchFragment : DaggerFragment() {
         viewModel = viewModelProvider(viewModelFactory)
         viewModel.openTopAlbumsAction.observe(this, Observer { artist ->
             if (artist == null) return@Observer
+            hideKeyboard(searchInput)
             findNavController().navigate(
                 SearchFragmentDirections.toTopAlbums(artist.mbId)
             )
@@ -45,6 +47,7 @@ class SearchFragment : DaggerFragment() {
         searchButton.setOnClickListener {
             val searchString = searchInput.text.toString()
             if (searchString.isNotBlank()) {
+                hideKeyboard(searchInput)
                 viewModel.search(searchString)
             }
         }

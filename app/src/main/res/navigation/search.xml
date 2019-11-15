@@ -29,6 +29,24 @@
         <argument
             android:name="artistMbId"
             app:argType="string" />
+
+        <action
+            android:id="@+id/to_album_info"
+            app:destination="@id/album_info_fragment">
+            <argument
+                android:name="albumMbId"
+                app:argType="string" />
+        </action>
     </fragment>
 
+    <fragment
+        android:id="@+id/album_info_fragment"
+        android:name="com.saiferwp.lastfmalbums.ui.albuminfo.AlbumInfoFragment"
+        android:label="@string/album_info"
+        tools:layout="@layout/album_info_fragment">
+
+        <argument
+            android:name="albumMbId"
+            app:argType="string" />
+    </fragment>
 </navigation>

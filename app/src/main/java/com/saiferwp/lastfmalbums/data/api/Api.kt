@@ -1,7 +1,9 @@
 package com.saiferwp.lastfmalbums.data.api
 
+import com.saiferwp.lastfmalbums.data.api.response.AlbumInfoResponse
 import com.saiferwp.lastfmalbums.data.api.response.ArtistSearchResponse
 import com.saiferwp.lastfmalbums.data.api.response.TopAlbumsResponse
+import com.saiferwp.lastfmalbums.domain.model.AlbumMbId
 import com.saiferwp.lastfmalbums.domain.model.ArtistMbId
 import kotlinx.coroutines.Deferred
 import retrofit2.Response
@@ -21,4 +23,9 @@ interface Api {
         @Query("mbid") mbid: ArtistMbId,
         @Query("page") page: Int? = 1
     ): Deferred<Response<TopAlbumsResponse>>
+
+    @GET("?method=album.getinfo&format=json")
+    fun getAlbumDetailsAsync(
+        @Query("mbid") mbid: AlbumMbId
+    ): Deferred<Response<AlbumInfoResponse>>
 }

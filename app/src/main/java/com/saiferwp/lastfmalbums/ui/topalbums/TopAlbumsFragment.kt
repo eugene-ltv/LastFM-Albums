@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import com.saiferwp.lastfmalbums.R
 import com.saiferwp.lastfmalbums.util.Result
 import com.saiferwp.lastfmalbums.util.successOr
@@ -24,6 +25,18 @@ class TopAlbumsFragment : DaggerFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel = viewModelProvider(viewModelFactory)
+        viewModel.openAlbumDetailsAction.observe(this, Observer { album ->
+            if (album == null) return@Observer
+            findNavController().navigate(
+                TopAlbumsFragmentDirections.toAlbumInfo(album.mbId)
+            )
+        })
+
+        if (savedInstanceState == null) {
+            TopAlbumsFragmentArgs.fromBundle(arguments ?: Bundle.EMPTY).run {
+                viewModel.loadTopAlbums(artistMbId)
+            }
+        }
     }
 
     override fun onCreateView(
@@ -46,11 +59,5 @@ class TopAlbumsFragment : DaggerFragment() {
             (topAlbumsRecycler.adapter as TopAlbumsAdapter)
                 .submitList(result.successOr(emptyList()))
         })
-
-        if (savedInstanceState == null) {
-            TopAlbumsFragmentArgs.fromBundle(arguments ?: Bundle.EMPTY).run {
-                viewModel.loadTopAlbums(artistMbId)
-            }
-        }
     }
 }
