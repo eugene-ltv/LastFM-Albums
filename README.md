@@ -14,7 +14,7 @@ Demo application for managing music albums based on the [LastFM API](https://www
 
 ## Prerequisites
 
-To build and run this project get the [LastFM API key](https://www.last.fm/api/authentication) to get instructions how to do it.
+To build and run this project get the LastFM [API key](https://www.last.fm/api/authentication).
 
 Define your Client ID in ``app/build.gradle``
 ```
