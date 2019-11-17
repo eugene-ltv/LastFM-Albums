@@ -8,10 +8,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.saiferwp.lastfmalbums.R
-import com.saiferwp.lastfmalbums.util.Result
-import com.saiferwp.lastfmalbums.util.successOr
-import com.saiferwp.lastfmalbums.util.toast
-import com.saiferwp.lastfmalbums.util.viewModelProvider
+import com.saiferwp.lastfmalbums.util.*
 import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.top_albums_fragment.*
 import javax.inject.Inject
@@ -64,8 +61,28 @@ class TopAlbumsFragment : DaggerFragment() {
                 return@Observer
             }
 
-            (topAlbumsRecycler.adapter as TopAlbumsAdapter)
-                .submitList(result.successOr(emptyList()))
+            val list = result.successOr(emptyList())
+            (topAlbumsRecycler.adapter as TopAlbumsAdapter).apply {
+                submitList(list)
+                showLoading(!viewModel.isLastPage)
+            }
+        })
+
+        topAlbumsRecycler.addOnScrollListener(object :
+            PaginationListener(
+                topAlbumsRecycler.layoutManager!!
+            ) {
+            override fun loadMoreItems() {
+                viewModel.loadMoreItems()
+            }
+
+            override fun isLastPage(): Boolean {
+                return viewModel.isLastPage
+            }
+
+            override fun isLoading(): Boolean {
+                return viewModel.isLoading
+            }
         })
     }
 }

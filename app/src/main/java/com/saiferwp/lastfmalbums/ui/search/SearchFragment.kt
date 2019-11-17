@@ -62,8 +62,28 @@ class SearchFragment : DaggerFragment() {
                 }
             }
 
-            (searchRecycler.adapter as SearchAdapter)
-                .submitList(result.successOr(emptyList()))
+            val list = result.successOr(emptyList())
+            (searchRecycler.adapter as SearchAdapter).apply {
+                submitList(list)
+                showLoading(!viewModel.isLastPage)
+            }
+        })
+
+        searchRecycler.addOnScrollListener(object :
+            PaginationListener(
+                searchRecycler.layoutManager!!
+            ) {
+            override fun loadMoreItems() {
+                viewModel.loadMoreItems()
+            }
+
+            override fun isLastPage(): Boolean {
+                return viewModel.isLastPage
+            }
+
+            override fun isLoading(): Boolean {
+                return viewModel.isLoading
+            }
         })
     }
 }
