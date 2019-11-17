@@ -4,6 +4,7 @@ import com.saiferwp.lastfmalbums.data.api.ApiClient
 import com.saiferwp.lastfmalbums.data.api.request.AlbumInfoRequest
 import com.saiferwp.lastfmalbums.data.api.request.Request
 import com.saiferwp.lastfmalbums.data.api.response.AlbumInfoResponse
+import com.saiferwp.lastfmalbums.data.api.response.toAlbumInfo
 import com.saiferwp.lastfmalbums.domain.LoadFromApiUseCase
 import com.saiferwp.lastfmalbums.domain.model.AlbumInfo
 import com.saiferwp.lastfmalbums.domain.model.ArtistMbId
@@ -18,7 +19,7 @@ class AlbumInfoUseCase @Inject constructor(
     }
 
     override fun getResponseData(body: AlbumInfoResponse): AlbumInfo {
-        return body.albumInfo
+        return body.albumInfoModel.toAlbumInfo()
     }
 }
 

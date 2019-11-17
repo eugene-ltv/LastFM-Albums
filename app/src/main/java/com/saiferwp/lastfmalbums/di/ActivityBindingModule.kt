@@ -8,7 +8,6 @@ import dagger.android.ContributesAndroidInjector
 @Suppress("UNUSED")
 abstract class ActivityBindingModule {
 
-    @ActivityScoped
     @ContributesAndroidInjector(
         modules = [
             // fragments

@@ -62,7 +62,7 @@ class TopAlbumViewHolder(
             .clear(binding.albumPicture)
 
         Glide.with(itemView.context)
-            .load(album.getPictureUrl())
+            .load(album.coverUrl)
             .into(binding.albumPicture)
     }
 }

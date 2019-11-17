@@ -5,12 +5,14 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.saiferwp.lastfmalbums.domain.albuminfo.AlbumInfoParameters
 import com.saiferwp.lastfmalbums.domain.albuminfo.AlbumInfoUseCase
+import com.saiferwp.lastfmalbums.domain.albuminfo.SaveAlbumUseCase
 import com.saiferwp.lastfmalbums.domain.model.AlbumInfo
 import com.saiferwp.lastfmalbums.util.Result
 import javax.inject.Inject
 
 class AlbumInfoViewModel @Inject constructor(
-    private val albumInfoUseCase: AlbumInfoUseCase
+    private val albumInfoUseCase: AlbumInfoUseCase,
+    private val saveAlbumUseCase: SaveAlbumUseCase
 ) : ViewModel() {
 
     private val _albumInfo = MutableLiveData<Result<AlbumInfo>>()
@@ -19,5 +21,9 @@ class AlbumInfoViewModel @Inject constructor(
 
     fun loadAlbumInfo(s: String) {
         albumInfoUseCase.invoke(AlbumInfoParameters(s), _albumInfo)
+    }
+
+    fun saveAlbum(albumInfo: AlbumInfo) {
+        saveAlbumUseCase.invoke(albumInfo)
     }
 }

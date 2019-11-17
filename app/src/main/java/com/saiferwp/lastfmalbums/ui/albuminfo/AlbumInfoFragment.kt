@@ -45,14 +45,18 @@ class AlbumInfoFragment : DaggerFragment() {
             val albumInfo = result.successOr(null) ?: return@Observer
 
             Glide.with(albumCover.context)
-                .load(albumInfo.getPictureUrl())
+                .load(albumInfo.coverUrl)
                 .into(albumCover)
 
             name.text = albumInfo.name
             artist.text = albumInfo.artist
 
             (tracksRecycler.adapter as TracksAdapter)
-                .submitList(albumInfo.tracks.list)
+                .submitList(albumInfo.tracks)
+
+            buttonSave.setOnClickListener {
+                viewModel.saveAlbum(albumInfo)
+            }
         })
     }
 }
