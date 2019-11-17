@@ -1,4 +1,4 @@
-package com.saiferwp.lastfmalbums.ui.topalbums
+package com.saiferwp.lastfmalbums.ui.savedalbums
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,21 +7,22 @@ import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.GridLayoutManager
 import com.saiferwp.lastfmalbums.R
 import com.saiferwp.lastfmalbums.util.Result
 import com.saiferwp.lastfmalbums.util.successOr
 import com.saiferwp.lastfmalbums.util.toast
 import com.saiferwp.lastfmalbums.util.viewModelProvider
 import dagger.android.support.DaggerFragment
-import kotlinx.android.synthetic.main.top_albums_fragment.*
+import kotlinx.android.synthetic.main.saved_albums_fragment.*
 import javax.inject.Inject
 
-class TopAlbumsFragment : DaggerFragment() {
+class SavedAlbumsFragment : DaggerFragment() {
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
-    private lateinit var viewModel: TopAlbumsViewModel
+    private lateinit var viewModel: SavedAlbumsViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,34 +30,24 @@ class TopAlbumsFragment : DaggerFragment() {
         viewModel.openAlbumDetailsAction.observe(this, Observer { album ->
             if (album == null) return@Observer
             findNavController().navigate(
-                TopAlbumsFragmentDirections.toAlbumInfo(album.mbId)
+                SavedAlbumsFragmentDirections.toAlbumInfo(album.mbId)
             )
         })
-
-        if (savedInstanceState == null) {
-            TopAlbumsFragmentArgs.fromBundle(arguments ?: Bundle.EMPTY).run {
-                viewModel.loadTopAlbums(artistMbId)
-            }
-        }
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        return inflater.inflate(R.layout.top_albums_fragment, container, false)
+        return inflater.inflate(R.layout.saved_albums_fragment, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        topAlbumsRecycler.adapter = TopAlbumsAdapter(viewModel)
+        albumsRecycler.layoutManager = GridLayoutManager(context, 2)
+        albumsRecycler.adapter = SavedAlbumsAdapter(viewModel)
+        albumsRecycler.itemAnimator = null
 
-        viewModel.topAlbums.observe(viewLifecycleOwner, Observer { result ->
-            loadingProgress.visibility = if (result is Result.Loading) {
-                View.VISIBLE
-            } else {
-                View.GONE
-            }
-
+        viewModel.savedAlbums.observe(viewLifecycleOwner, Observer { result ->
             if (result is Result.Error) {
                 result.exception.message?.let {
                     toast(it)
@@ -64,8 +55,13 @@ class TopAlbumsFragment : DaggerFragment() {
                 return@Observer
             }
 
-            (topAlbumsRecycler.adapter as TopAlbumsAdapter)
-                .submitList(result.successOr(emptyList()))
+            result.successOr(emptyList()).let {
+                (albumsRecycler.adapter as SavedAlbumsAdapter)
+                    .submitList(it)
+                emptyMessage.visibility = if (it.isNotEmpty()) View.GONE else View.VISIBLE
+            }
         })
+
+        viewModel.loadSavedAlbums()
     }
 }

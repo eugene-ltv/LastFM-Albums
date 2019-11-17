@@ -14,11 +14,28 @@ fun AlbumInfo.toAlbumInfoEntity(): AlbumInfoEntity {
     )
 }
 
+fun AlbumInfoEntity.toAlbumInfo(tracks: List<TrackInfo>): AlbumInfo {
+    return AlbumInfo(
+        mbId = albumMbId,
+        name = name,
+        artist = artist,
+        coverUrl = coverUrl,
+        tracks = tracks
+    )
+}
+
 fun TrackInfo.toTrackInfoEntity(albumMbId: String): TrackInfoEntity {
     return TrackInfoEntity(
         UUID.randomUUID().toString(),
         name = name,
         duration = duration,
         albumMbId = albumMbId
+    )
+}
+
+fun TrackInfoEntity.toTrackInfo(): TrackInfo {
+    return TrackInfo(
+        name = name,
+        duration = duration
     )
 }

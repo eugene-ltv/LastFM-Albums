@@ -47,7 +47,7 @@ class ContainerFragment : Fragment() {
     private fun setupBottomNavigationBar() {
         val bottomNavigationView = view?.findViewById<BottomNavigationView>(R.id.bottom_nav)
 
-        val navGraphIds = listOf(R.navigation.search)
+        val navGraphIds = listOf(R.navigation.saved_albums, R.navigation.search)
 
         // Setup the bottom navigation view with a list of navigation graphs
         val controller = bottomNavigationView?.setupWithNavController(

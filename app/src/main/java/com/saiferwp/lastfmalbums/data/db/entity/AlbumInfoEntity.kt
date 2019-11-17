@@ -10,5 +10,5 @@ data class AlbumInfoEntity(
     @PrimaryKey val albumMbId: AlbumMbId,
     @ColumnInfo(name = "name") val name: String,
     @ColumnInfo(name = "artist") val artist: String,
-    @ColumnInfo(name = "coverUrl") val coverUrl: String?
+    @ColumnInfo(name = "coverUrl") val coverUrl: String
 )

@@ -4,8 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/content"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:visibility="gone">
 
         <androidx.cardview.widget.CardView
             android:id="@+id/header"
@@ -22,7 +24,7 @@
 
                 <ImageView
                     android:id="@+id/albumCover"
-                    android:layout_width="200dp"
+                    android:layout_width="160dp"
                     android:layout_height="0dp"
                     app:layout_constraintDimensionRatio="h,1:1"
                     app:layout_constraintStart_toStartOf="parent"
@@ -30,24 +32,31 @@
 
                 <TextView
                     android:id="@+id/name"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:maxLines="2"
                     android:textColor="@color/black"
                     android:textSize="16sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toEndOf="@+id/albumCover"
                     app:layout_constraintTop_toTopOf="parent"
                     tools:text="Album" />
 
-
                 <TextView
                     android:id="@+id/artist"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
+                    android:layout_marginEnd="16dp"
+                    android:maxLines="2"
                     android:textColor="@color/grey"
                     android:textSize="14sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="@+id/name"
                     app:layout_constraintTop_toBottomOf="@+id/name"
                     tools:text="Artist" />
@@ -56,11 +65,25 @@
                     android:id="@+id/buttonSave"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="36dp"
                     android:text="Save"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/albumCover" />
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toEndOf="@+id/albumCover"
+                    app:layout_constraintTop_toBottomOf="@+id/artist"
+                    app:layout_constraintVertical_bias="0.5"
+                    tools:visibility="gone" />
+
+                <Button
+                    android:id="@+id/buttonDelete"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Delete"
+                    app:layout_constraintBottom_toBottomOf="@+id/buttonSave"
+                    app:layout_constraintEnd_toEndOf="@+id/buttonSave"
+                    app:layout_constraintStart_toStartOf="@+id/buttonSave"
+                    app:layout_constraintTop_toTopOf="@+id/buttonSave"
+                    tools:visibility="gone" />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.cardview.widget.CardView>
 
@@ -71,9 +94,7 @@
             app:layoutManager="LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/header"
-            app:layout_constraintVertical_bias="1.0" />
+            app:layout_constraintTop_toBottomOf="@+id/header" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

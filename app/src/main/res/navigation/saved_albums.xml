@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/saved_albums"
+    app:startDestination="@id/saved_albums_fragment">
+
+    <fragment
+        android:id="@+id/saved_albums_fragment"
+        android:name="com.saiferwp.lastfmalbums.ui.savedalbums.SavedAlbumsFragment"
+        android:label="@string/saved_albums"
+        tools:layout="@layout/saved_albums_fragment">
+
+        <action
+            android:id="@+id/to_album_info"
+            app:destination="@id/album_info_fragment">
+            <argument
+                android:name="albumMbId"
+                app:argType="string" />
+        </action>
+    </fragment>
+
+    <fragment
+        android:id="@+id/album_info_fragment"
+        android:name="com.saiferwp.lastfmalbums.ui.albuminfo.AlbumInfoFragment"
+        android:label="@string/album_info"
+        tools:layout="@layout/album_info_fragment">
+
+        <argument
+            android:name="albumMbId"
+            app:argType="string" />
+    </fragment>
+</navigation>

@@ -13,7 +13,8 @@ abstract class ActivityBindingModule {
             // fragments
             SearchFragmentModule::class,
             TopAlbumsFragmentModule::class,
-            AlbumInfoFragmentModule::class
+            AlbumInfoFragmentModule::class,
+            SavedAlbumsFragmentModule::class
         ]
     )
     internal abstract fun mainActivity(): MainActivity

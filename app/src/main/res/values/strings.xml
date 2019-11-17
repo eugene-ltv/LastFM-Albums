@@ -3,4 +3,6 @@
     <string name="search">Search</string>
     <string name="top_albums">Top Albums</string>
     <string name="album_info">Album Info</string>
+    <string name="saved_albums">Saved Albums</string>
+    <string name="no_saved_albums">No saved albums</string>
 </resources>

@@ -18,7 +18,10 @@ class SearchArtistsUseCase @Inject constructor(
     }
 
     override fun getResponseData(body: ArtistSearchResponse): List<Artist> {
-        return body.data.artistmatches.artist.map { it.toArtist() }
+        return body.data.artistmatches.artist
+            // remove artists without IDs, they break following logic
+            .map { if (it.mbId.isNotBlank()) it else null }
+            .mapNotNull { it?.toArtist() }
     }
 }
 

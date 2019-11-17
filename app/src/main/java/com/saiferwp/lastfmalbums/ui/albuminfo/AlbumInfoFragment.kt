@@ -57,6 +57,17 @@ class AlbumInfoFragment : DaggerFragment() {
             buttonSave.setOnClickListener {
                 viewModel.saveAlbum(albumInfo)
             }
+            buttonDelete.setOnClickListener {
+                viewModel.deleteAlbum(albumInfo)
+            }
+
+            content.visibility = View.VISIBLE
+        })
+
+        viewModel.isAlbumSaved.observe(viewLifecycleOwner, Observer {
+            val isSaved = it.successOr(false)
+            buttonSave.visibility = if (isSaved) View.GONE else View.VISIBLE
+            buttonDelete.visibility = if (isSaved) View.VISIBLE else View.GONE
         })
     }
 }

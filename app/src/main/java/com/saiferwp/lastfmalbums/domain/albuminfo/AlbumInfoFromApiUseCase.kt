@@ -10,7 +10,7 @@ import com.saiferwp.lastfmalbums.domain.model.AlbumInfo
 import com.saiferwp.lastfmalbums.domain.model.ArtistMbId
 import javax.inject.Inject
 
-class AlbumInfoUseCase @Inject constructor(
+class AlbumInfoFromApiUseCase @Inject constructor(
     api: ApiClient
 ) : LoadFromApiUseCase<AlbumInfoParameters, AlbumInfo, AlbumInfoResponse>(api) {
 

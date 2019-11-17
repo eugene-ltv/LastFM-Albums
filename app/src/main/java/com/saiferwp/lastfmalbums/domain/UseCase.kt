@@ -17,8 +17,7 @@ abstract class UseCase<in P, R> {
      * @param result the MutableLiveData where the result is posted to
      *
      */
-    operator fun invoke(parameters: P, result: MutableLiveData<Result<R>>) {
-        result.value = Result.Loading
+    open operator fun invoke(parameters: P, result: MutableLiveData<Result<R>>) {
         try {
             scope.launch {
                 try {

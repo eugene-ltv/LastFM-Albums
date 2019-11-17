@@ -8,10 +8,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.saiferwp.lastfmalbums.R
-import com.saiferwp.lastfmalbums.util.Result
-import com.saiferwp.lastfmalbums.util.hideKeyboard
-import com.saiferwp.lastfmalbums.util.successOr
-import com.saiferwp.lastfmalbums.util.viewModelProvider
+import com.saiferwp.lastfmalbums.util.*
 import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.search_fragment.*
 import javax.inject.Inject
@@ -57,6 +54,12 @@ class SearchFragment : DaggerFragment() {
                 View.VISIBLE
             } else {
                 View.GONE
+            }
+
+            if (result is Result.Error) {
+                result.exception.message?.let {
+                    toast(it)
+                }
             }
 
             (searchRecycler.adapter as SearchAdapter)
