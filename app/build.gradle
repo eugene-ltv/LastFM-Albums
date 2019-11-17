@@ -4,6 +4,8 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'androidx.navigation.safeargs.kotlin'
 
+def lastFmApiKey = LastFmApiKey
+
 android {
     compileSdkVersion 29
     defaultConfig {
@@ -16,10 +18,10 @@ android {
     }
     buildTypes {
         debug {
-            buildConfigField 'String', "LastFmApiKey", LastFmApiKey
+            buildConfigField 'String', "LastFmApiKey", lastFmApiKey
         }
         release {
-            buildConfigField 'String', "LastFmApiKey", LastFmApiKey
+            buildConfigField 'String', "LastFmApiKey", lastFmApiKey
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
