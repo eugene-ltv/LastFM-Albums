@@ -33,6 +33,11 @@ class SearchViewModel @Inject constructor(
     var list: List<Artist> = emptyList()
 
     fun search(s: String) {
+        if (s != searchString) {
+            currentPage = 1
+            list = emptyList()
+        }
+
         isLoading = true
         val artists = MutableLiveData<Result<List<Artist>>>()
         _artists.addSource(artists) {

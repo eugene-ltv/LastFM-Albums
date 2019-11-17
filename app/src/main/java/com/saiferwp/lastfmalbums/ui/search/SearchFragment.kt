@@ -64,7 +64,7 @@ class SearchFragment : DaggerFragment() {
 
             val list = result.successOr(emptyList())
             (searchRecycler.adapter as SearchAdapter).apply {
-                submitList(list)
+                setData(list)
                 showLoading(!viewModel.isLastPage)
             }
         })

@@ -3,8 +3,6 @@ package com.saiferwp.lastfmalbums.ui.search
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.saiferwp.lastfmalbums.R
 import com.saiferwp.lastfmalbums.databinding.ListItemSearchBinding
@@ -12,8 +10,9 @@ import com.saiferwp.lastfmalbums.domain.model.Artist
 
 class SearchAdapter(
     private val eventListener: SearchEventListener
-) : ListAdapter<Artist, RecyclerView.ViewHolder>(DIFF_CALLBACK) {
+) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
+    private var items = listOf<Artist>()
     private var isLoaderVisible = false
 
     fun showLoading(show: Boolean) {
@@ -21,12 +20,19 @@ class SearchAdapter(
         notifyDataSetChanged()
     }
 
-    override fun getItemCount() = super.getItemCount() +
-            if (isLoaderVisible && super.getItemCount() > 0) 1 else 0
+    fun setData(
+        items: List<Artist>
+    ) {
+        this.items = items
+        notifyDataSetChanged()
+    }
+
+    override fun getItemCount() = items.size +
+            if (isLoaderVisible && items.isNotEmpty()) 1 else 0
 
     override fun getItemViewType(position: Int): Int {
         return if (isLoaderVisible) {
-            if (position == super.getItemCount()) VIEW_TYPE_LOADING else VIEW_TYPE_NORMAL
+            if (position == items.size) VIEW_TYPE_LOADING else VIEW_TYPE_NORMAL
         } else {
             VIEW_TYPE_NORMAL
         }
@@ -48,30 +54,14 @@ class SearchAdapter(
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        if (!isLoaderVisible || (isLoaderVisible && position < super.getItemCount())) {
-            (holder as ArtistViewHolder).bind(getItem(position))
+        if (!isLoaderVisible || (isLoaderVisible && position < items.size)) {
+            (holder as ArtistViewHolder).bind(items[position])
         }
     }
 
     companion object {
         private const val VIEW_TYPE_LOADING = 0
         private const val VIEW_TYPE_NORMAL = 1
-
-        val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Artist>() {
-            override fun areItemsTheSame(
-                oldItem: Artist,
-                newItem: Artist
-            ): Boolean {
-                return oldItem === newItem
-            }
-
-            override fun areContentsTheSame(
-                oldItem: Artist,
-                newItem: Artist
-            ): Boolean {
-                return oldItem.mbId == newItem.mbId
-            }
-        }
     }
 
     class ArtistViewHolder(
